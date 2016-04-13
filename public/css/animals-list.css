@@ -1,0 +1,54 @@
+body {
+  position: relative;
+  width: 1175px;
+  margin: 0 auto;
+  background: #F5F5F5;
+}
+
+.animals-list {
+  width: 65%;
+  height: 1000px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  background: #fff;
+  overflow: auto;
+}
+
+.animals-list a {
+  cursor: pointer;  
+  transition: all 0.2s;
+}
+
+.animals-list a:hover {
+  color: lightgreen;
+  text-decoration: none;
+}
+
+.animals-list a.delete:hover {
+  color: firebrick;
+  text-decoration: none;
+}
+
+
+
+
+.filter {
+  position: absolute;
+  right: 0px;
+  top: 80px;
+  width: 30%;  
+  padding: 10px 20px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.filter .h4 {
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.filter .form-control {
+  margin-bottom: 10px;
+}
