@@ -1,0 +1,5 @@
+<div class="image-container">
+  <a class="image" ng-repeat="result in results" style="background-image: url('/api/{{result.id}}/{{result.photoId}}/1')" href="/animal/{{result.url}}">
+    <figcaption>{{result.title}}</figcaption>
+  </a>
+</div>

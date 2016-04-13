@@ -1,0 +1,207 @@
+<div>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/"><strong>Animalia.com</strong></a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/animals-list">Animals</a></li>
+          <li ng-if="user.usertype == 1"><a href="/users-list">Users</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/logout"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="h3">Animals {{animals.length}}</div>
+  <button class="btn btn-success" ng-click="create()" data-toggle="modal" data-target="#myModal">Create</button>
+  <div class="animals-list">
+    <table class="table table-hover">
+      <tr>
+        <th width="20px">№</th>
+        <th>Name</th>
+        <th colspan="2">Options</th>
+      </tr>
+      <tr ng-if="animals" ng-repeat="animal in animals | filter:{title:nameFilter}">
+        <td>{{animals.length - $index}}</td>
+        <td>{{animal.title}}</td>
+        <td><a data-toggle="modal" data-target="#myModal" ng-click="edit(animal)">edit</a> </td>
+        <td><a class="delete" ng-click="delete($index)">del</a> </td>
+        <td><a href="/photos-list/{{animal._id}}">photos</a> </td>
+      </tr>
+    </table>
+  </div>
+  <div class="filter">
+    <div class="h4">Filter</div>
+    <input type="texet" class="form-control" placeholder="Name" ng-model="nameFilter">
+    <button class="btn btn-primary">Filter</button>
+    <button class="btn btn-default" disabled>Reset</button>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span> </button>
+          <h4 class="modal-title" id="myModalLabel">Edit Animal</h4>
+          <div class="btn btn-info" ng-click="getRandom()">Random</div>
+        </div>
+        <div class="modal-body">
+          <form ng-model="editForm">
+            <form class="form-inline text-right">
+              <label>Url:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.url" ng-model="editAnimal.url">
+              </label>
+              <span class="glyphicon glyphicon-info-sign" title="{{reg.url.toString()}}" data-toggle="tooltip"></span>
+            </form>
+            <form class="form-inline text-right">
+              <label>Title:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.title" ng-model="editAnimal.title">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.title.toString()}}" data-toggle="tooltip"></span>
+              </label>
+            </form>
+            <hr>
+            <div class="h3 text-left">Scientic Taxonomy</div>
+            <form class="form-inline text-right">
+              <label>Name:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.name" ng-model="editAnimal.sciTaxonomy.name">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.name.toString()}}" data-toggle="tooltip"></span>
+              </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Class:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.str" ng-model="editAnimal.sciTaxonomy.class">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.str.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Order:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.str" ng-model="editAnimal.sciTaxonomy.order">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.str.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Family:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.str" ng-model="editAnimal.sciTaxonomy.family">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.str.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Genus:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.str" ng-model="editAnimal.sciTaxonomy.genus">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.str.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <hr>
+            <div class="h3 text-left">Characteristics</div>
+            <form class="form-inline text-right">
+              <label>Size:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.size" ng-model="editAnimal.characteristic.size">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.size.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Weight:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.weight" ng-model="editAnimal.characteristic.weight">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.weight.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Life span:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.lifeSpan" ng-model="editAnimal.characteristic.lifeSpan">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.lifeSpan.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Speed:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.speed" ng-model="editAnimal.characteristic.speed">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.speed.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Biome:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.str" ng-model="editAnimal.characteristic.biome">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.str.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <hr>
+            <div class="h3 text-left">Life Style</div>
+            <form class="form-inline text-right">
+              <label>Diet:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.str" ng-model="editAnimal.lifeStyle.diet">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.str.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Nutrilion:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.desc" ng-model="editAnimal.lifeStyle.nutrilion">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.desc.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Matting Habbits:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.desc" ng-model="editAnimal.lifeStyle.mattingHabbits">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.desc.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Maturity Age:
+                <input type="text" class="form-control" ng-pattern="reg.maturityAge" ng-model="editAnimal.lifeStyle.maturityAge">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.maturityAge.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Pregnancy:
+                <input type="number" class="form-control" ng-pattern="reg.number" ng-model="editAnimal.lifeStyle.pregnancy">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.number.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Reproduction:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.str" ng-model="editAnimal.lifeStyle.reproduction">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.str.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <hr>
+            <div class="h3 text-left">Population</div>
+            <form class="form-inline text-right">
+              <label>Status:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.str" ng-model="editAnimal.population.status">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.str.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Number:
+                <input type="number" class="form-control" ng-pattern="reg.number" ng-model="editAnimal.population.number">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.number.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Threats:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.desc" ng-model="editAnimal.population.threats">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.desc.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <form class="form-inline text-right">
+              <label>Hunting:
+                <input type="text" ng-trim="false" class="form-control" ng-pattern="reg.desc" ng-model="editAnimal.population.hunting">
+                <span class="glyphicon glyphicon-info-sign" title="{{reg.desc.toString()}}" data-toggle="tooltip"></span>                </label>
+            </form>
+            <hr>
+            <label> Facts:<span class="glyphicon glyphicon-info-sign" title="{{reg.desc.toString()}}" data-toggle="tooltip"></span>
+              <textarea cols="80" class="form-control" ng-model="editAnimal.facts" ng-list="&#10;" ng-trim="false"
+              rows="10"></textarea>
+            </label>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button ng-if="editAnimal" type="button" class="btn btn-primary" ng-click="saveEdit()" data-dismiss="modal" ng-disabled="!isValid()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

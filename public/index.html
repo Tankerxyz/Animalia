@@ -4,21 +4,170 @@
 <head>
   <base href="/">
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Animals</title>
   <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/style.css">
   <script src="vendor/angular/angular.min.js"></script>
   <script src="vendor/angular-route/angular-route.min.js"></script>
+  <script src="vendor/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
+  <script src="vendor/angular-css.min.js"></script>
   <script src="vendor/jquery/dist/jquery.min.js"></script>
   <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="js/index.js"></script>
-  <script src="js/controllers/animalEditCtrl.js"></script>
-  <script src="js/controllers/animalsListCtrl.js"></script>
-  <script src="js/controllers/loginCtrl.js"></script>
+  <script src="vendor/async/dist/async.min.js"></script>
+
+  <script src="app.js"></script>
+  <script src="pages/AnimalsList/AnimalsListCtrl.js"></script>
+  <script src="pages/Main/MainCtrl.js"></script>
+  <script src="pages/PhotosList/PhotosListCtrl.js"></script>
+  <script src="pages/PhotosUpload/PhotosUploadCtrl.js"></script>
+  <script src="pages/UsersList/UsersListCtrl.js"></script>
+  <script src="pages/SearchResults/SearchResultsCtrl.js"></script>
+  <script src="pages/Animal/AnimalCtrl.js"></script>
+  <script src="pages/Slider/SliderCtrl.js"></script>
 </head>
 
 <body>
+  <header ng-if="!adminCabinet">
+
+    <a href="/" class="logo">
+      <img src="./images/logo.png">
+    </a>
+    <div class="search dropdown">
+      <!--<button class="btn btn-default dropdown-toggle" type="button" >-->
+      <span class="glyphicon glyphicon-search" id="searchMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></span>
+      <ul class="dropdown-menu pull-right" aria-labelledby="searchMenu">
+        <div class="search-big">
+          <div class="input-group">
+            <input type="text" class="form-control" ng-model="finder.str" ng-trim="false" ng-change="search(finder)" placeholder="Search">
+            <span class="input-group-btn">
+                  <button class="btn btn-success" ng-click="goSearch(finder)">
+                      <i class="glyphicon glyphicon-search"></i>
+                  </button>
+              </span>
+          </div>
+          <div ng-if="finder.results" class="list-group">
+            <a ng-click="resetResusts(finder)" ng-repeat="result in finder.results" href="/animal/{{result.url}}" class="list-group-item">{{result.title}}</a>
+          </div>
+        </div>
+      </ul>
+    </div>
+
+    <div class="menu dropdown">
+      <!--<button class="btn btn-default dropdown-toggle" type="button" >-->
+      <span class="glyphicon glyphicon-menu-hamburger" id="showLoginMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></span>
+      <ul class="dropdown-menu" aria-labelledby="showLoginMenu">
+        <li ng-if="user" class="dropdown-header">
+          <a ng-if="user && user.usertype != 3" href="/animals-list"><i class="glyphicon glyphicon-cog"></i>{{user.username}}</a>
+          <p ng-if="user && user.usertype == 3">{{user.username}}</p>
+        </li>
+
+        <li><a ng-if="!user" href="#" data-toggle="modal" data-target="#myModal" class="text-center"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
+        <li><a ng-if="user" href="/logout" class="text-center"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+
+
+      </ul>
+    </div>
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/"><img src="./images/logo.png"></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+          <form class="navbar-form navbar-left" style="width: 0" role="search">
+            <div class="search-big">
+              <div class="input-group">
+                <input type="text" class="form-control" ng-model="finder.str" ng-trim="false" ng-change="search(finder)" placeholder="Search">
+                <span class="input-group-btn">
+                  <button class="btn btn-success" ng-click="goSearch(finder)">
+                      <i class="glyphicon glyphicon-search"></i>
+                  </button>
+              </span>
+              </div>
+              <div ng-if="finder.results" class="list-group">
+                <a ng-click="resetResusts(finder)" ng-repeat="result in finder.results" href="/animal/{{result.url}}" class="list-group-item">{{result.title}}</a>
+              </div>
+            </div>
+          </form>
+
+
+
+          <ul class="nav navbar-nav navbar-right">
+            <li ng-if="user && user.usertype != 3">
+              <a class="adminButton" href="/animals-list"><i class="glyphicon glyphicon-cog"></i></a>
+              <li class="dropdown">
+                <a ng-if="user" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span aria-hidden="true">{{user.username}}<span class="caret"></span></span>
+                </a>
+                <a ng-if="!user" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Anonym<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a ng-if="!user" href="#" data-toggle="modal" data-target="#myModal" class="text-center"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
+                  <li><a role="button" ng-if="user" ng-click="logout()" class="text-center"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+                </ul>
+              </li>
+          </ul>
+
+
+        </div>
+      </div>
+    </nav>
+    <hr>
+  </header>
+
   <ng-view></ng-view>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Login</h4>
+        </div>
+        <div class="modal-body">
+          <div class="login-form">
+            <form>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="data.checkRegister" ng-init="data.checkRegister=false">Registration
+                </label>
+              </div>
+              <div class="form-group">
+                <label>Login <span class="glyphicon glyphicon-info-sign" title="4-20 символов, которыми могут быть буквы и цифры, первый символ обязательно буква"
+                  data-toggle="tooltip"></span>
+                  <input type="text" class="form-control" ng-model="data.login" ng-pattern="/^[a-zA-Z][a-zA-Z0-9-_\.]{4,20}$/">
+                </label>
+              </div>
+              <div class="form-group">
+                <label>Password <span class="glyphicon glyphicon-info-sign" title="Строчные и прописные латинские буквы, цифры, спецсимволы. Минимум 8 символов"
+                  data-toggle="tooltip"></span>
+                  <input type="password" class="form-control" ng-model="data.password" ng-pattern="/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/">
+                </label>
+              </div>
+              <div ng-show="data.checkRegister" class="form-group">
+                <label>Repeat password
+                  <input type="password" class="form-control" ng-model="data.repeatPassword" ng-class="{bad : data.password!=data.repeatPassword}">
+                </label>
+              </div>
+              <div ng-show="data.checkRegister" class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="data.agreeRegister">I agree with the rules
+                </label>
+              </div>
+            </form>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button ng-if="!data.checkRegister" type="submit" class="btn btn-primary" ng-click="login(data)" ng-disabled="!(data.login && data.password)">Submit</button>
+          <button ng-if="data.checkRegister" type="submit" class="btn btn-primary" ng-click="register(data)" ng-disabled="!(data.login && data.password && data.agreeRegister && (data.password == data.repeatPassword))">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

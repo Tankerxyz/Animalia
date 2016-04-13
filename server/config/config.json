@@ -1,5 +1,12 @@
 {
   "server": {
-    "port": 3030
+    "port": 3030,
+    "secret": "super-puper-secret",
+    "uploads": {
+      "url": "/home/user/Documents/test/server/uploads/"
+    }
+  },
+  "database": {
+    "uri": "mongodb://localhost/test"
   }
 }

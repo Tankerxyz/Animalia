@@ -1,0 +1,17 @@
+.thumbnail {
+  position: relative;
+}
+
+
+.thumbnail > .btn-group {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.thumbnail {
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+

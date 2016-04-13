@@ -1,0 +1,106 @@
+<div class="container">
+  
+  <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/"><strong>Animalia.com</strong></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/animals-list">Animals</a></li>
+            <li ng-if="user.usertype == 1"><a href="/users-list">Users</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="/logout"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  
+  
+  
+   <ol class="breadcrumb">
+      <li><a href="/animals-list">Animals</a></li>
+      <li><a ng-href="/photos-list/{{animalId}}">Photos</a></li>
+      <li class="active">Upload</li>
+    </ol>
+    
+    <div ng-if="length" class="progress">
+    <div class="progress-bar progress-bar-striped active" role="progressbar" id="progressBar" ng-style="getDownloadedPercentStyle()">
+      {{length - files.length}}/{{length}}
+    </div>
+  </div>
+  
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+    
+  <h3><img height="15px" ng-show="loaded" ng-src="/images/712.gif"> Multiple Files Selection |  Count {{files.length}}</h3>
+  </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+          
+     <div class="input-group"> 
+       
+        <input class="form-control " data-loading-text="Loading..." type="file" ng-model="inputFiles" base-sixty-four-input multiple maxnum="15"
+        accept="image/*" onload="onchange" on-after-validate="onChangeHandlerFunc" ng-disabled="length">
+      <span class="input-group-btn">
+  <button ng-if="files.length" class="btn btn-primary" id="upload" ng-click="uploadFiles()">Upload</button>
+  <button ng-hide="length" ng-if="files.length" class="btn btn-info" ng-click="getRandom()">Random</button>
+
+        
+        
+      </span>
+      
+    </div>
+    </div>
+</div>
+
+  
+  <div ng-if="files.length" class="row">
+    <hr>
+    <div class="col-md-4" ng-repeat="file in files">
+
+        <button ng-hide="length" class="close" aria-label="Close" ng-click="remove($index)"><span aria-hidden="true">&times;</span></button>
+        <div class="panel-body">
+          
+          <div class="thumbnail">
+            <div class="media">
+              <div class="media-left">
+                <img class="img-rounded" height="80px" ng-src="{{getBase64SrcStr(file.file)}}">
+              </div>
+              <div class="media-body">
+                <div class="input-group">
+                  <span class="input-group-addon" id="age-addon">Age</span>
+                  <input type="text" class="form-control" ng- ng-model="file.info.age" aria-describedby="age-addon">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="place-addon">Place</span>
+                  <input type="text" class="form-control" ng-model="file.info.place" aria-describedby="place-addon">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="geography-addon">Geography</span>
+                  <input type="text" class="form-control" ng-model="file.info.geography" aria-describedby="geography-addon">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="conditions-addon">Conditions</span>
+                  <input type="text" class="form-control" ng-model="file.info.conditions" aria-describedby="conditions-addon">
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  
+  </div>

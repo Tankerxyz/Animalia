@@ -1,0 +1,116 @@
+<div class="animal-container">
+  <div class="left">
+    <a class="big-image" ng-click="setActivePhoto(0)" data-toggle="modal" data-target="#myModalSlider" style="background-image: url('/api/{{animal._id}}/{{animal.photos[0].id}}/0')">
+      <figcaption>{{animal.title}}</figcaption>
+    </a>
+  </div>
+
+  <div class="right">
+    <div class="info-block">
+      <div class="h6 text-uppercase"><strong>Scientific taxonomy</strong></div>
+      <table>
+        <tr>
+          <td>Class:</td>
+          <td><a>{{animal.sciTaxonomy.class}}</a></td>
+        </tr>
+        <tr>
+          <td>Order:</td>
+          <td><a>{{animal.sciTaxonomy.order}}</a></td>
+        </tr>
+        <tr>
+          <td>Family:</td>
+          <td><a>{{animal.sciTaxonomy.family}}</a></td>
+        </tr>
+        <tr>
+          <td>Genus:</td>
+          <td><a>{{animal.sciTaxonomy.genus}}</a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="info-block characteristics">
+      <div class="h6 text-uppercase"><strong>Characteristics and facts</strong></div>
+      <div>
+        <strong>Common names: </strong>
+      </div>
+      <p>{{animal.sciTaxonomy.name}}</p>
+      <p><strong>Size (H): </strong>{{animal.characteristic.size}}</p>
+      <p><strong>Weight: </strong>{{animal.characteristic.weight}}</p>
+      <p><strong>Life Span: </strong>{{animal.characteristic.lifeSpan}}</p>
+      <p><strong>Top speed: </strong>{{animal.characteristic.speed}}</p>
+      <p><strong>Biome: </strong><a>{{animal.characteristic.biome}}</a></p>
+    </div>
+
+
+    <a ng-click="hide($event)" class="more-info" role="button" data-toggle="collapse" data-target="#collapseInfo" aria-expanded="false" aria-controls="collapseInfo">
+      More Info
+    </a>
+    <div class="collapse" id="collapseInfo">
+      <div class="info-block">
+      <div class="h6 text-uppercase"><strong>Habits and lifestyle</strong></div>
+      <p><strong>Diet: </strong>{{animal.lifeStyle.diet}}</p>
+      <p><strong>Nutrition: </strong>{{animal.lifeStyle.nutrilion}}</p>
+      <p><strong>Mating habbits: </strong>{{animal.lifeStyle.mattingHabbits}}</p>
+      <p><strong>Pregnancy duration (month): </strong>{{animal.lifeStyle.pregnancy}}</p>
+      <p><strong>Reproduction season: </strong>{{animal.lifeStyle.reproduction}}</p>
+    </div>
+    <div class="info-block">
+      <div class="h6 text-uppercase"><strong>Population</strong></div>
+      <p><strong>Population status: </strong>{{animal.population.status}}</p>
+      <p><strong>Number: </strong>{{animal.population.number}}</p>
+      <p><strong>Threats: </strong>{{animal.population.threats}}</p>
+      <p><strong>Hunting: </strong>{{animal.population.hunting}}</p>
+    </div>
+    <div ng-if="animal.facts" class="info-block facts">
+      <div class="h6 text-uppercase"><strong>Fun facts for kids</strong></div>
+      <p class="fact" ng-repeat="fact in animal.facts track by $index">{{fact}}</p>
+    </div>
+    </div>
+
+
+
+    
+  </div>
+
+  <div class="photos">
+    <div ng-if="animal.photos" class="images-grid">
+      <div ng-repeat="photo in getSubArray(animal.photos, 1, 7)" ng-click="setActivePhoto($index+1)" data-toggle="modal" data-target="#myModalSlider"
+      style="background-image: url('/api/{{animal._id}}/{{photo.id}}/1')"></div>
+    </div>
+    <div class="banner">
+      <a href="#"></a>
+    </div>
+    <div ng-if="animal.photos" class="images-grid">
+      <div ng-repeat="photo in getSubArray(animal.photos, 7, 13)" ng-click="setActivePhoto($index+7)" data-toggle="modal" data-target="#myModalSlider"
+      style="background-image: url('/api/{{animal._id}}/{{photo.id}}/1')"></div>
+    </div>
+  </div>
+
+</div>
+
+
+<div ng-blur="aoeu($event)" id="myModalSlider" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div id="carousel-example-generic" data-interval="false" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner" role="listbox">
+            <a ng-if="animal.photos" ng-repeat="photo in animal.photos" ng-click="goToSlider(photo.id)" ng-click="test(animal.url, photo.id)"
+            ng-class="{true:'item active', false:'item'}[photo==activePhoto]" data-dismiss="modal">
+              <img ng-src="/api/{{animal._id}}/{{photo.id}}/0">
+            </a>
+
+          </div>
+          <a class="left carousel-control" data-target="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          </a>
+          <a class="right carousel-control" data-target="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

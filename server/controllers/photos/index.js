@@ -1,0 +1,9 @@
+module.exports.getFullInfo = require('./methods/getFullInfo');
+module.exports.getFullInfoAll = require('./methods/getFullInfoAll');
+module.exports.getAllById = require('./methods/getAllById');
+module.exports.getAllByUrl = require('./methods/getAllByUrl');
+module.exports.getImage = require('./methods/getImage');
+module.exports.remove = require('./methods/remove');
+module.exports.edit = require('./methods/edit');
+module.exports.addPhotos = require('./methods/addPhotos');
+module.exports.delete = require('./methods/delete');

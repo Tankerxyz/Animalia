@@ -16,6 +16,8 @@
     "angular": "angularjs#1.4.8",
     "bootstrap": "^3.3.6",
     "jquery": "^2.2.2",
-    "angular-route": "^1.5.2"
+    "angular-route": "^1.5.2",
+    "async": "^1.5.2",
+    "angular-slick": "^0.2.1"
   }
 }

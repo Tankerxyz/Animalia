@@ -1,0 +1,39 @@
+<div class="main fluid-container">
+  <a ng-if="animalOfTheDay" class="animal-of-the-day" href="animal/{{animalOfTheDay.url}}">
+    <div class="left-container" style="background-image:linear-gradient(-25deg, rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.7) 5%,rgba(0,0,0,0.07) 33%,rgba(0,0,0,0) 100%), url('/api/{{animalOfTheDay._id}}/{{animalOfTheDay.photos[0].id}}/0')">
+      <figcaption>
+        <div class="h5 text-uppercase">Animal of the day</div>
+        <div class="h1 text-uppercase">{{animalOfTheDay.title}}</div>
+      </figcaption>
+      <span class="glyphicon glyphicon-triangle-right"></span>
+    </div>
+    <div class="right-container">
+      <div class="image" style="background-image: url('/api/{{animalOfTheDay._id}}/{{animalOfTheDay.photos[1].id}}/1')"></div>
+      <div class="image" style="background-image: url('/api/{{animalOfTheDay._id}}/{{animalOfTheDay.photos[2].id}}/1')"></div>
+      <figcaption>+{{animalOfTheDay.countPhotos - 3}}</figcaption>
+    </div>
+  </a>
+  <div class="most-popular" ng-init="getMostPopularAnimals()">
+    <div class="h2 text-uppercase">Most popular animals</div>
+    <a class="animal-popular" href="animal/{{mostPopularAnimals[0].url}}" style="background-image:linear-gradient(-25deg, rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.7) 5%,rgba(0,0,0,0.07) 33%,rgba(0,0,0,0) 100%), url('/api/{{mostPopularAnimals[0].id}}/{{mostPopularAnimals[0].photoId}}/1')">
+      <figcaption>{{mostPopularAnimals[0].title}}</figcaption>
+    </a>
+    <a class="animal-popular" href="animal/{{mostPopularAnimals[1].url}}" style="background-image:linear-gradient(-25deg, rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.7) 5%,rgba(0,0,0,0.07) 33%,rgba(0,0,0,0) 100%), url('/api/{{mostPopularAnimals[1].id}}/{{mostPopularAnimals[1].photoId}}/1')">
+      <figcaption>{{mostPopularAnimals[1].title}}</figcaption>
+    </a>
+    <div class="banner555x555">
+      <a href="#">
+        <img>
+      </a>
+    </div>
+    <a ng-if="mostPopularAnimals" class="animal-popular" ng-repeat="animal in getSubArray(mostPopularAnimals, 2)" href="animal/{{animal.url}}" style="background-image:linear-gradient(-25deg, rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.7) 5%,rgba(0,0,0,0.07) 33%,rgba(0,0,0,0) 100%), url('/api/{{animal.id}}/{{animal.photoId}}/1')">
+      <figcaption>{{animal.title}}</figcaption>
+    </a>
+    <a ng-if="mostPopularAnimals && mostPopularAnimals.length >= 11 && canShowMore" ng-click="getMoreMostPopularAnimals(8)" class="animal-popular show-more">
+      <figcaption>
+        <span class="glyphicon glyphicon-repeat"></span>
+        <div class="h6">Show more</div>
+      </figcaption>
+    </a>
+  </div>
+</div>

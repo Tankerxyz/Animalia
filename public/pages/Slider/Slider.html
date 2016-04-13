@@ -1,0 +1,42 @@
+<div class="slider-container fluid-container">
+  <div id="carousel-example-generic" data-interval="false" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+      <div ng-if="animal.photos" ng-repeat="photo in animal.photos" ng-class="{true:'item active', false:'item'}[photo==activePhoto]">
+        <div class="image">
+          <img width="100%" ng-src="/api/{{animal._id}}/{{photo._id}}/0">
+          <figcaption>{{photo.name}}</figcaption>
+        </div>
+          <a class="banner-on-width"></a>
+        <div class="photo-info">
+          <div class="h1 text-uppercase">{{photo.name}}</div>
+          <p><strong>Author: </strong><a>{{photo.author}}</a> <strong>Taken: </strong> {{photo.date | smallDate}}</p>
+          <p class="copyright"><span class="glyphicon glyphicon-copyright-mark"></span><span> Some rights reserved. This photo was releated under a
+            Creative Commons Atribution-Share Alike 3.0 License by its author.</span></p>
+          <a class="banner"></a>
+          <div class="info">
+            <div class="h6 text-uppercase">Photo info</div>
+            <p><strong>Animal age: </strong>{{photo.info.age}}</p>
+            <p><strong>Natural conditions: </strong> {{photo.info.conditions | getStrFromArray}}</p>
+            <p><strong>Geography: </strong> {{photo.info.geography | getStrFromArray}}</p>
+            <p><strong>Place: </strong> {{photo.info.place}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a class="left carousel-control" data-target="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-menu-left"></span>
+  </a>
+  <a class="right carousel-control" data-target="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-menu-right"></span>
+  </a>
+  <a class="carousel-control remove" href="/animal/{{animal.url}}">
+    <span class="glyphicon glyphicon-remove"></span>
+  </a>
+  <a class="carousel-control download" ng-click="download('aoeu')">
+    <span class="glyphicon glyphicon-download-alt"></span>
+  </a>
+</div>
+
+</div>

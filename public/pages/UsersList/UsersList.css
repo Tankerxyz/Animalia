@@ -1,0 +1,70 @@
+body {
+  position: relative;
+  width: 1175px;
+  margin: 0 auto;
+  background: #F5F5F5;
+}
+
+.admin, .cmanager, .user {
+  text-shadow: 1px 0 0 #fff;
+}
+
+.admin {
+  color: firebrick;
+}
+
+.cmanager {
+  color: green;
+}
+
+.user {
+  color: black;
+}
+
+.users-list {
+  width: 65%;
+  min-height: 1000px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  background: #fff;
+  overflow: auto;
+}
+
+.users-list a {
+  cursor: pointer;  
+  transition: all 0.2s;
+}
+
+.users-list a:hover {
+  color: lightgreen;
+  text-decoration: none;
+}
+
+.users-list a.delete:hover {
+  color: firebrick;
+  text-decoration: none;
+}
+
+
+
+
+.filter {
+  position: absolute;
+  right: 0px;
+  top: 152px;
+  width: 30%;  
+  padding: 10px 20px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.filter .h4 {
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.filter .form-control {
+  margin-bottom: 10px;
+}

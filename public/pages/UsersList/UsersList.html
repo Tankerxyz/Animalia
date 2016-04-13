@@ -1,0 +1,93 @@
+<div>
+  
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/"><strong>Animalia.com</strong></a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/animals-list">Animals</a></li>
+          <li class="active"><a href="/users-list">Users</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/logout"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  
+  
+  <div class="h3">Users {{users.length}}</div>
+  <button class="btn btn-success" data-toggle="modal" data-target="#myModal" ng-click="create()">Create</button>
+  <div class="users-list">
+    <table class="table table-hover">
+      <tr>
+        <th width="20px">№</th>
+        <th>Name</th>
+        <th colspan="2">Options</th>
+      </tr>
+      <tr ng-if="users" ng-repeat="element in users | filter:{title:nameFilter}">
+        <td>{{users.length - $index}}</td>
+        <td class="{{getClass(element)}}">{{element.username}}</td>
+
+        <td><a data-toggle="modal" data-target="#myModal" ng-click="edit(element)">edit</a></td>
+        <td ng-if="user.usertype == 1"><a class="delete" ng-click="delete($index)">del</a></td>
+      </tr>
+    </table>
+  </div>
+  <div class="filter">
+    <div class="h4">Filter</div>
+    <input type="text" class="form-control" placeholder="Name" ng-model="nameFilter">
+    <button class="btn btn-primary">Filter</button>
+    <button class="btn btn-default" disabled>Reset</button>
+  </div>
+
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Edit User</h4>
+        </div>
+        <div class="modal-body">
+          <label>Username
+            <input class="form-control" ng-pattern="reg.login" ng-model="editUser.username">
+          </label>
+          <label>Password
+            <input type="password" class="form-control" ng-pattern="reg.password" ng-model="editUser.password">
+          </label>
+
+          <label> Usertype: 
+            <div class="btn-group">
+              <label class="btn btn-xs">
+                <input type="radio" ng-model="editUser.usertype" value="1"> Admin
+              </label>
+              <label class="btn btn-xs">
+                <input type="radio" ng-model="editUser.usertype" value="2"> CManager
+              </label>
+              <label class="btn btn-xs">
+                <input type="radio" ng-model="editUser.usertype" value="3"> User
+              </label>
+            </div>
+          </label>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" ng-click="saveEdit()" data-dismiss="modal" ng-disabled="!isValid()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
